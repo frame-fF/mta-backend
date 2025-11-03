@@ -3,7 +3,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.authtoken.serializers import AuthTokenSerializer
 from rest_framework import status
-from apps.player.serializers import TokenSerializer
+from apps.player.serializers import TokenSerializer, RegisterSerializer
 
 
 class LoginAPI(APIView):
@@ -15,3 +15,15 @@ class LoginAPI(APIView):
         token = Token.objects.create(user=user)
         serializer = TokenSerializer(instance=token)
         return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+class RegisterAPI(APIView):
+    def post(self, request, *args, **kwargs):
+        serializer = RegisterSerializer(data=request.data)
+        if serializer.is_valid():
+            user = serializer.save()
+            # Create token for the new user
+            token = Token.objects.create(user=user)
+            token_serializer = TokenSerializer(instance=token)
+            return Response(token_serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
