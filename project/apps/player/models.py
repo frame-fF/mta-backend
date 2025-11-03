@@ -26,6 +26,7 @@ class PlayerData(BaseModel):
     weapons = models.JSONField(default=dict, blank=True, null=True)
     armor = models.FloatField(default=0, blank=True, null=True)
     clothes = models.JSONField(default=dict, blank=True, null=True)
+    wantedlevel = models.IntegerField(default=0, blank=True, null=True)
 
     class Meta:
-        db_table = 'userdata'
+        db_table = 'tb_player_data'

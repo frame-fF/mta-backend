@@ -6,4 +6,5 @@ app_name = "player_api"
 urlpatterns = [
     path("login/", LoginAPI.as_view(), name="login"),
     path("register/", RegisterAPI.as_view(), name="register"),
+    path("me/", GetPlayerAPI.as_view(), name="get_player"),
 ]
