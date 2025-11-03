@@ -1,7 +1,8 @@
 from django.urls import path
 from apps.player.api import *
 
+app_name = "player_api"
 
 urlpatterns = [
-
+    path("login/", LoginAPI.as_view(), name="login"),
 ]
