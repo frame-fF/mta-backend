@@ -7,6 +7,11 @@ from apps.player.serializers import TokenSerializer, RegisterSerializer
 
 
 class LoginAPI(APIView):
+    def get(self, request, *args, **kwargs):
+        # Return serializer schema for browsable API
+        serializer = AuthTokenSerializer()
+        return Response(serializer.data)
+    
     def post(self, request, *args, **kwargs):
         serializer = AuthTokenSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -18,6 +23,11 @@ class LoginAPI(APIView):
 
 
 class RegisterAPI(APIView):
+    def get(self, request, *args, **kwargs):
+        # Return serializer schema for browsable API
+        serializer = RegisterSerializer()
+        return Response(serializer.data)
+    
     def post(self, request, *args, **kwargs):
         serializer = RegisterSerializer(data=request.data)
         if serializer.is_valid():

@@ -26,13 +26,23 @@ class TokenSerializer(serializers.ModelSerializer):
 class RegisterSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True, required=True, style={'input_type': 'password'})
     password2 = serializers.CharField(write_only=True, required=True, label='Confirm Password', style={'input_type': 'password'})
+    email = serializers.EmailField(required=True)
 
     class Meta:
         model = Player
         fields = ['username', 'email', 'password', 'password2']
-        extra_kwargs = {
-            'email': {'required': True}
-        }
+
+    def validate_email(self, value):
+        if not value:
+            raise serializers.ValidationError("Email is required.")
+        if Player.objects.filter(email=value).exists():
+            raise serializers.ValidationError("A user with this email already exists.")
+        return value
+
+    def validate_username(self, value):
+        if Player.objects.filter(username=value).exists():
+            raise serializers.ValidationError("A user with this username already exists.")
+        return value
 
     def validate(self, attrs):
         if attrs['password'] != attrs['password2']:
