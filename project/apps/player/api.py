@@ -3,7 +3,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.authtoken.serializers import AuthTokenSerializer
 from rest_framework import status
-from apps.player.serializers import TokenSerializer, RegisterSerializer, PlayerSerializer
+from apps.player.serializers import TokenSerializer, RegisterSerializer, PlayerSerializer, PlayerDataSerializer
 from apps.player.models import Player
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
@@ -49,8 +49,19 @@ class PlayerAPI(APIView):
         return Response(serializer.data, status=status.HTTP_200_OK)
     
     def patch(self, request, *args, **kwargs):
-        print(request.data)
         serializer = PlayerSerializer(instance=request.user, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class UpdatePlayerDataAPI(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def patch(self, request, *args, **kwargs):
+        player_data = request.user.data
+        serializer = PlayerDataSerializer(instance=player_data, data=request.data, partial=True)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_200_OK)
