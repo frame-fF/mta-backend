@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "ninja",
+    "apps.player.apps.PlayerConfig",
 ]
 
 MIDDLEWARE = [
@@ -134,3 +135,5 @@ MEDIA_ROOT = Path.joinpath(BASE_DIR, "media")
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+AUTH_USER_MODEL = "player.Player"
