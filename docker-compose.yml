@@ -1,6 +1,6 @@
 services:
   mta:
-    container_name: mta
+    container_name: mta-backend
     build:
       context: .
       dockerfile: Dockerfile
