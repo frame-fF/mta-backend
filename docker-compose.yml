@@ -1,0 +1,15 @@
+services:
+  mta:
+    container_name: mta
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 8888:8888
+    restart: always
+    command: ["uv", "run", "uvicorn", "config.asgi:application", "--host", "0.0.0.0", "--port", "8888", "--lifespan=off"]
+  
+networks:
+  default:
+    external: true
+    name: base

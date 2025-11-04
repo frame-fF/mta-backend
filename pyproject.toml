@@ -9,4 +9,6 @@ dependencies = [
     "django>=5.2.7",
     "django-filter>=25.2",
     "djangorestframework>=3.16.1",
+    "psycopg2>=2.9.11",
+    "uvicorn>=0.38.0",
 ]
